@@ -3,15 +3,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 #Install C++ tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
-    # gcc-arm-none-eabi \
-    # binutils-arm-none-eabi \
-    # gdb-arm-none-eabi\ 
-    # openocd \
     wget \
     python3-pip \
     cmake \
     ninja-build \
     llvm
+    # Needed by gcc-arm-none-eabi-gdb
+    libncurses5
 # Install GCOVR and update to newest version
 RUN pip3 install gcovr && pip3 install -U gcovr 
 # Clean up
