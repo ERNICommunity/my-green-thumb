@@ -7,3 +7,9 @@
 [submodule "external/cmsis_core"]
 	path = external/cmsis_core
 	url = https://github.com/STMicroelectronics/cmsis_core
+[submodule "tests/googletest"]
+	path = tests/googletest
+	url = https://github.com/google/googletest.git
+[submodule "external/wiring-timer"]
+	path = external/wiring-timer
+	url = https://github.com/dniklaus/wiring-timer.git
