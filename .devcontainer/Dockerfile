@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     python3-pip \
     cmake \
     ninja-build \
-    llvm
+    llvm \
     # Needed by gcc-arm-none-eabi-gdb
     libncurses5
 # Install GCOVR and update to newest version

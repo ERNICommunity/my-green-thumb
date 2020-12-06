@@ -5,11 +5,11 @@
           "type": "cortex-debug",
           "request": "launch",
           "name": "Debug-On-Target",
-          "executable": "${workspaceRoot}/build/app/cmake-stm32l4-example_app.elf",
+          "executable": "${workspaceRoot}/build/app/my-green-thumb.elf",
           "gdbTarget": "192.168.178.21:3333",
           "cwd": "${workspaceFolder}",
           "servertype": "external",
-          "runToMain": false,
+          "runToMain": true,
           "showDevDebugOutput": false,
           "preLaunchCommands": [
             "monitor reset halt",

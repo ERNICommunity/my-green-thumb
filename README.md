@@ -1,5 +1,9 @@
 # my-green-thumb
 
+## Status
+![example workflow name](https://github.com/ERNICommunity/my-green-thumb/workflows/build-app_arm-gcc/badge.svg)
+![example workflow name](https://github.com/ERNICommunity/my-green-thumb/workflows/buildNtest-core_linux-gcc/badge.svg)
+
 ## Getting Started
 
 ### Prerequisites
@@ -44,7 +48,7 @@
 - Start OpenODC (Replace MY_IP_ADDRESS with your actual IP): 
   ```
   cd path_to_openocd_folder
-  openocd -f scripts/interface/stlink-v2.cfg -f scripts/board/stm32l4discovery.cfg -c "gdb_port 3333" -c "telnet_port 4444" -c "bindto MY_IP_ADDRESS" -c "init; reset init; halt"
+  openocd -f scripts/interface/stlink.cfg -f scripts/board/stm32l4discovery.cfg -c "gdb_port 3333" -c "telnet_port 4444" -c "bindto MY_IP_ADDRESS" -c "init; reset init; halt"
   ```
 - Open `.vscode/launch.json` file
 - Change go to the 'cortex-debug' configuration an change the IP-address under `"gdbTarget": "MY_IP_ADDRESS:3333"` to your IP-address
@@ -54,3 +58,10 @@ At moment an autoconfiguration of the IP-address isn't possible.
 ## Wiki
 
 [Go to wiki](https://github.com/ERNICommunity/my-green-thumb/wiki/Software-Requirements-Specification)
+
+## TODO
+
+- Useing of proper Namespaces
+- Top Level Class Smartpot
+- Make WaterRegulator / MoistureSensor / WaterValve configurable
+- Interface documentation
