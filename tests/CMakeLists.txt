@@ -1,29 +1,43 @@
+# Tests
+
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
-set(TEST_PROJECT "cmake-stm32l4-example_test")
-set(LIBRARY_LIB "${TEST_PROJECT}_lib")
-set(TEST_SOURCES "main.cpp")
-set(TEST_FLAGS "-O0;-g")
+# Create CMake project
+set(PROJECT "my-green-thumb")
+project(${PROJECT} VERSION 1.0.0 LANGUAGES CXX)
 
-project(${TEST_PROJECT})
+# Set Language Standards
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Set names of needed components
+set(TARGET "${PROJECT}_tests")
+set(LIBRARY_CORE "${PROJECT}_lib-core")
+
+# Includes
 include(CTest)
+enable_testing()
+
+# Add libraries
 add_subdirectory(googletest)
-add_subdirectory("../src" ${CMAKE_CURRENT_BINARY_DIR}/src)
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+add_subdirectory("../core" ${CMAKE_CURRENT_BINARY_DIR}/src)
 
-if (NOT (TARGET gtest AND TARGET gtest_main))
-    message(FATAL_ERROR "gtest and gtest_main targets NOT found")
-endif()
+# Sources
+set(SOURCES 
+    "Test_TaskTimer.cpp"
+    "main.cpp"
+)
+set(COMPILER_FLAGS "-O0;-g")
 
-add_executable(${TEST_PROJECT} ${TEST_SOURCES})
-target_link_libraries(${TEST_PROJECT} PRIVATE 
-    ${LIBRARY_LIB} 
-    gtest 
+# Add and configure target
+add_executable(${PROJECT} ${SOURCES})
+target_link_libraries(${PROJECT} PRIVATE 
+    ${LIBRARY_CORE} 
+    gtest
+    gmock
     pthread
 )
+target_compile_options(${PROJECT} PUBLIC ${COMPILER_FLAGS})
 
-target_compile_options(${TEST_PROJECT} PUBLIC ${TEST_FLAGS})
-target_compile_features(${TEST_PROJECT} PUBLIC cxx_std_17)
-
-add_test(NAME ${LIBRARY_LIB}.${TEST_PROJECT} COMMAND ${TEST_PROJECT})
+add_test(NAME ${LIBRARY_CORE}.${PROJECT} COMMAND ${PROJECT})

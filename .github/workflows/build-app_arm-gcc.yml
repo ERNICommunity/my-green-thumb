@@ -1,0 +1,20 @@
+name: build-app_arm-gcc
+on: [push]
+
+jobs:
+  test-lib-core:
+    runs-on: ubuntu-latest
+    steps:
+      - name: arm-none-eabi-gcc
+        uses: fiam/arm-none-eabi-gcc@v1
+      - name: get-cmake
+        uses: lukka/get-cmake@latest
+      - name: checkout-repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: build-app
+        run: |
+          cd ${{ github.workspace }}
+          chmod +x tools/build_app.sh
+          ./tools/build_app.sh

@@ -1,0 +1,20 @@
+name: buildNtest-core_linux-gcc
+on: [push]
+
+jobs:
+  test-lib-core:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get-cmake
+        uses: lukka/get-cmake@latest
+      - name: checkout-repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: build-tests
+        run: |
+          cd ${{ github.workspace }}
+          chmod +x tools/build_tests.sh
+          ./tools/build_tests.sh
+      - name: test-core-lib
+        run: ./build/tests/my-green-thumb
