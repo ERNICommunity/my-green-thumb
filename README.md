@@ -65,3 +65,4 @@ At moment an autoconfiguration of the IP-address isn't possible.
 - Top Level Class Smartpot
 - Make WaterRegulator / MoistureSensor / WaterValve configurable
 - Interface documentation
+- Safety-Req: Controlled shutdown on power failure. (Close valve etc.)
