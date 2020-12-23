@@ -10,3 +10,6 @@
 [submodule "tests/googletest"]
 	path = tests/googletest
 	url = https://github.com/google/googletest.git
+[submodule "external/spin-timer"]
+	path = external/spin-timer
+	url = https://github.com/dniklaus/spin-timer

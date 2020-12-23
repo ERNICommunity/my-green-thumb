@@ -2,22 +2,19 @@
 
 #include <exception>
 
-AdptSpinTimer::AdptSpinTimer(timerInterval_t interval_ms) : m_Interval_ms(interval_ms), m_MyTimerAction(), m_Timer(&m_MyTimerAction, true, interval_ms)
-{
-    if (m_Timer.isRunning())
-    {
-        stop();
-    }
-}
+AdptSpinTimer::AdptSpinTimer(timerInterval_t interval_ms) : m_Interval_ms(interval_ms),
+                                                            m_MyTimerAction(),
+                                                            m_Timer(interval_ms, &m_MyTimerAction, SpinTimer::IS_RECURRING, SpinTimer::IS_NON_AUTOSTART)
+{}
 
 void AdptSpinTimer::start()
 {
-    m_Timer.startTimer(m_Interval_ms);
+    m_Timer.start(m_Interval_ms);
 }
 
 void AdptSpinTimer::stop()
 {
-    m_Timer.cancelTimer();
+    m_Timer.cancel();
 }
 
 bool AdptSpinTimer::isRunning()
@@ -35,7 +32,6 @@ void AdptSpinTimer::setCallbackFunc(const timerCallbackFunc_t &func)
     {
         throw std::invalid_argument("Function is empty");
     }
-    
 }
 
 void AdptSpinTimer::setInterval(const timerInterval_t interval_ms)
@@ -46,8 +42,8 @@ void AdptSpinTimer::setInterval(const timerInterval_t interval_ms)
 
         if (m_Timer.isRunning())
         {
-            m_Timer.cancelTimer();
-            m_Timer.startTimer(m_Interval_ms);
+            m_Timer.cancel();
+            m_Timer.start(m_Interval_ms);
         }
     }
 }
@@ -67,12 +63,11 @@ void MyTimerAction::setTaskFunction(const timerCallbackFunc_t &func)
     {
         throw std::invalid_argument("Function is empty");
     }
-    
 }
 
 void MyTimerAction::timeExpired()
-{   
-    if(m_CallbackFunc)
+{
+    if (m_CallbackFunc)
     {
         m_CallbackFunc();
     }

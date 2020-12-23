@@ -1,9 +1,9 @@
 #pragma once
 
 #include "ITimer.hpp"
-#include "Timer.h"
+#include "SpinTimer.h"
 
-class MyTimerAction : public TimerAdapter
+class MyTimerAction : public SpinTimerAction
 {
 public:
     MyTimerAction(const timerCallbackFunc_t &callbackFunc = {}) : m_CallbackFunc(callbackFunc){};
@@ -23,7 +23,7 @@ class AdptSpinTimer : public ITimer
 private:
     timerInterval_t m_Interval_ms;
     MyTimerAction m_MyTimerAction;
-    Timer m_Timer;
+    SpinTimer m_Timer;
 
 public:
     AdptSpinTimer(timerInterval_t interval_ms = 10);

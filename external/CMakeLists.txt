@@ -127,21 +127,4 @@ target_include_directories(${HAL_TARGET} PUBLIC ${HAL_INCLUDE_DIRECTORIES})
 
 
 # Add Wiring Timer
-
-set(TIM_TARGET ${LIBRARY_WIR_TIM})
-set(TIM_PATH "wiring-timer")
-set(TIM_INCLUDE_DIRECTORIES 
-    "${TIM_PATH}"
-)
-set(TIM_SOURCES
-    "${TIM_PATH}/Timer.cpp"
-    "${TIM_PATH}/TimerContext.cpp"
-    "${TIM_PATH}/UptimeInfo.cpp"
-)
-
-add_library(${TIM_TARGET} OBJECT ${TIM_SOURCES})
-target_include_directories(${TIM_TARGET} PUBLIC ${TIM_INCLUDE_DIRECTORIES})
-target_compile_definitions(${TIM_TARGET}
-    PUBLIC
-        WIRINGTIMER_SUPPRESS_WARNINGS
-)
+add_subdirectory(spin-timer)

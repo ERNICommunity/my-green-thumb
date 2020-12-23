@@ -18,7 +18,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(LIBRARY_CORE "${PROJECT}_lib-core")
 set(LIBRARY_CMSIS "${PROJECT}_lib-cmsis")
 set(LIBRARY_HAL "${PROJECT}_lib-hal")
-set(LIBRARY_WIR_TIM "${PROJECT}_lib-tim")
+set(LIBRARY_WIR_TIM "SpinTimer")
 
 set(TARGET ${PROJECT})
 
