@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     cmake \
     ninja-build \
     llvm \
+    doxygen \
     # Needed by gcc-arm-none-eabi-gdb
     libncurses5
 # Install GCOVR and update to newest version
