@@ -12,15 +12,15 @@ private:
     bool m_IsRunning;
 
 public:
-    TaskPolling(uint32_t id, const std::string &name, uint32_t intervall, const taskFunction_t &callbackFunc = {});
+    TaskPolling(uint32_t id, const std::string &name, uint32_t intervall, const taskFunction_t &callbackFunc);
     virtual ~TaskPolling() = default;
 
     // ITask base methods
-    bool start();
-    bool stop();
+    void start();
+    void stop();
     void changeInterval(uint32_t intervall);
     task_t getInfo();
-    bool setTaskFunction(const taskFunction_t &func);
+    void setTaskFunction(const taskFunction_t &func);
     bool isRunning();
 
     // Specific methods

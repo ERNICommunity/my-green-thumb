@@ -19,7 +19,7 @@ public:
     ~WaterValveBistable() = default;
 
     // Interface implementation
-    bool init();
+    void init();
     void open();
     void close();
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <cassert>
+#include <exception>
 
 #include "ITask.hpp"
 
@@ -9,37 +9,29 @@ class Service
 {
 public:
     // Constructor
-    Service(std::shared_ptr<ITask> task) : m_Task(task)
+    Service(std::unique_ptr<ITask> task) : m_Task(std::move(task))
     {
-        assert(m_Task);
-
-        if( !m_Task->setTaskFunction(std::bind(&Service::doWork, this)) )
+        if(m_Task)
         {
-            assert(0);
+            m_Task->setTaskFunction(std::bind(&Service::doWork, this));
+        }
+        else
+        {
+            throw std::invalid_argument("Task pointer is NULL");         
         }
     };
     virtual ~Service(){};
 
 public:
-    bool start()
+    void start()
     {
-        if (!setup())
-            return false;
-
-        if (!m_Task->start())
-            return false;
-
-        return true;
+        setup();
+        m_Task->start();
     };
-    bool stop()
+    void stop()
     {
-        if (!m_Task->stop())
-            return false;
-
-        if (!dispose())
-            return false;
-
-        return true;
+        m_Task->stop();
+        dispose();
     };
     bool isRunning()
     {
@@ -53,10 +45,10 @@ public:
 
 protected:
     // Interface methods
-    virtual bool setup() = 0;
-    virtual bool dispose() = 0;
+    virtual void setup() = 0;
+    virtual void dispose() = 0;
     virtual void doWork() = 0;
 
 private:
-    std::shared_ptr<ITask> m_Task;
+    std::unique_ptr<ITask> m_Task;
 };

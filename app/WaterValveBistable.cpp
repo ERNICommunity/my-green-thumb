@@ -3,10 +3,8 @@
 #include "stm32l4xx_hal.h"
 
 
-bool WaterValveBistable::init()
+void WaterValveBistable::init()
 {
-    bool retVal = true;
-
     // Initialize GPIOs
 
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -36,9 +34,7 @@ bool WaterValveBistable::init()
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     // Configure Timer
-    retVal &= m_Timer->setInterval(1000);
-
-    return retVal;
+    m_Timer->setInterval(1000);
 }
 
 void WaterValveBistable::open()

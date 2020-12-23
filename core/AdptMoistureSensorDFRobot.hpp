@@ -23,7 +23,7 @@ public:
   /*! @brief Get info about the sensor itself */
   const sensor_t getInfo() const;
   /*! @brief Init the sensor itself */
-  const bool init();
+  void init();
 
 private:
   std::shared_ptr<IAdptMoistureSensorDFRobot> m_MoistureSensor;

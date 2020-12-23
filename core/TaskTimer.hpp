@@ -12,11 +12,11 @@ public:
     virtual ~TaskTimer() = default;
 
     // ITask interface implementation
-    bool start();
-    bool stop();
+    void start();
+    void stop();
     void changeInterval(uint32_t intervall);
     task_t getInfo();
-    bool setTaskFunction(const taskFunction_t &func);
+    void setTaskFunction(const taskFunction_t &func);
     bool isRunning();
 
 private:

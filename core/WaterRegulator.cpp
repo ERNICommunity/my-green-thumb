@@ -1,24 +1,28 @@
 #include "WaterRegulator.hpp"
 
+#include <exception>
+
 uint32_t THOLD_DRY = 200;
 uint32_t THOLD_WET = 850;
 // uint32_t m_RegIntervalValveOpen_ms = 10000;
 // uint32_t m_RegIntervalValveClose_ms = 250;
 
-bool WaterRegulator::setup()
+WaterRegulator::WaterRegulator(std::shared_ptr<IMoistureSensor> moistureSensor,
+                               std::shared_ptr<IValve> waterValve) : m_MoistureSensor(moistureSensor),
+                                                                     m_WaterValve(waterValve)
 {
-    if (!m_MoistureSensor->init())
-    {
-        return false;
-    }
+    if(!m_MoistureSensor)
+    {throw std::invalid_argument("m_MoistureSensor is nullptr");}
 
-    if (!m_WaterValve->init())
-    {
-        return false;
-    }
+    if(!m_WaterValve)
+    {throw std::invalid_argument("m_WaterValve is nullptr");}
+}
+
+void WaterRegulator::setup()
+{
+    m_MoistureSensor->init();
+    m_WaterValve->init();
     m_WaterValve->close();
-
-    return true;
 }
 
 void WaterRegulator::regulateMoisture()
@@ -41,7 +45,7 @@ void WaterRegulator::regulateMoisture()
     }
 }
 
-bool WaterRegulator::dispose()
+void WaterRegulator::dispose()
 {
-    return true;
+    // Nothing to do
 }

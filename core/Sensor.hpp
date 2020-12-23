@@ -52,7 +52,7 @@ public:
   /*! @brief Get info about the sensor itself */
   virtual const sensor_t getInfo() const = 0;
   /*! @brief Setup the sensor itself */
-  virtual const bool init() = 0;
+  virtual void init() = 0;
 
   // Base class methods
 

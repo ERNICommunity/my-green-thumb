@@ -68,29 +68,31 @@ int main(void)
   uptimeInfo->setAdapter(new STM32UptimeInfoAdapter());
 
   ServiceStatus serviceStatus(
-      std::make_shared<TaskTimer>(
-        1, 
-        "TimerStatus", 
-        500, 
-        std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer())));
+      std::unique_ptr<TaskTimer>(new TaskTimer(
+          1,
+          "TimerStatus",
+          500,
+          std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer()))));
 
-  std::shared_ptr<MoistureSensorDFRobot> moistureSensor = std::make_shared<MoistureSensorDFRobot>();
-  std::shared_ptr<WaterValveBistable> waterValve = std::make_shared<WaterValveBistable>(
-      std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer()));
+  std::shared_ptr<AdptMoistureSensorDFRobot> moistureSensor = std::make_shared<AdptMoistureSensorDFRobot>(
+    std::make_shared<MoistureSensorDFRobot>()
+  );
+  std::shared_ptr<AdptWaterValve> waterValve = std::make_shared<AdptWaterValve>(
+      std::make_shared<WaterValveBistable>(std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer())));
   std::shared_ptr<WaterRegulator> waterRegulator = std::make_shared<WaterRegulator>(
-    std::dynamic_pointer_cast<IMoistureSensor>(moistureSensor), 
-    std::dynamic_pointer_cast<IValve>(waterValve));
+      std::dynamic_pointer_cast<IMoistureSensor>(moistureSensor),
+      std::dynamic_pointer_cast<IValve>(waterValve));
 
   ServiceWaterRegulator serviceWaterRegulator(
-    std::make_shared<TaskTimer>(1, "TimerWaterRegulator", 50, std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer())),
-    waterRegulator);
+      std::unique_ptr<TaskTimer>(new TaskTimer(1, "TimerWaterRegulator", 50, std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer()))),
+      waterRegulator);
 
-  if (!serviceStatus.start())
+  try
   {
-    Error_Handler();
+    serviceStatus.start();
+    serviceWaterRegulator.start();
   }
-
-  if (!serviceWaterRegulator.start())
+  catch (std::exception &e)
   {
     Error_Handler();
   }
@@ -173,7 +175,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   */
 void Error_Handler(void)
 {
-  while(1)
+  while (1)
   {
     // Error
   }

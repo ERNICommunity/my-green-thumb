@@ -44,7 +44,7 @@ const sensor_t AdptMoistureSensorDFRobot::getInfo() const
     return sensor_info;
 }
 
-const bool AdptMoistureSensorDFRobot::init() 
+void AdptMoistureSensorDFRobot::init() 
 {
-    return m_MoistureSensor->init();
+    m_MoistureSensor->init();
 }

@@ -66,3 +66,5 @@ At moment an autoconfiguration of the IP-address isn't possible.
 - Make WaterRegulator / MoistureSensor / WaterValve configurable
 - Interface documentation
 - Safety-Req: Controlled shutdown on power failure. (Close valve etc.)
+- Debug CLI/Trace
+- Use of strategy pattern for irrigation

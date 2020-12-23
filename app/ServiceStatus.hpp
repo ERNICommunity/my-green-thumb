@@ -7,12 +7,12 @@ class ServiceStatus : public Service
 {
 
 public:
-    ServiceStatus(std::shared_ptr<ITask> task) : Service(task){};
+    ServiceStatus(std::unique_ptr<ITask> task) : Service(std::move(task)){};
     virtual ~ServiceStatus() = default;
 
 private:
     // Service Interface
-    bool setup()
+    void setup()
     {
         GPIO_InitTypeDef GPIO_InitStruct = {0};
 
@@ -43,13 +43,11 @@ private:
         // Set initial values
         HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
-
-        return true;
     };
 
-    bool dispose()
+    void dispose()
     {
-        return true;
+        // Nothing to do here
     };
 
     void doWork()

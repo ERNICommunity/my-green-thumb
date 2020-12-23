@@ -9,7 +9,7 @@ public:
     MyTimerAction(const timerCallbackFunc_t &callbackFunc = {}) : m_CallbackFunc(callbackFunc){};
     ~MyTimerAction() = default;
 
-    bool setTaskFunction(const timerCallbackFunc_t &func);
+    void setTaskFunction(const timerCallbackFunc_t &func);
 
     // TimerAdapter interface implementation
     void timeExpired();
@@ -30,10 +30,10 @@ public:
     ~AdptSpinTimer() = default;
 
     // ITimer interface implementation
-    bool start();
-    bool stop();
+    void start();
+    void stop();
     bool isRunning();
-    bool setCallbackFunc(const timerCallbackFunc_t &func);
-    bool setInterval(timerInterval_t interval_ms);
+    void setCallbackFunc(const timerCallbackFunc_t &func);
+    void setInterval(const timerInterval_t interval_ms);
     timerInterval_t getInterval() const;
 };

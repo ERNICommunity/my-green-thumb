@@ -10,5 +10,5 @@ public:
   virtual ~IAdptMoistureSensorDFRobot() = default;
 
   virtual const std::optional<uint32_t> readValue() = 0;
-  virtual const bool init() = 0;
+  virtual void init() = 0;
 };

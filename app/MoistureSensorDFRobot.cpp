@@ -1,24 +1,24 @@
 #include "MoistureSensorDFRobot.hpp"
 
-const bool MoistureSensorDFRobot::init()
+#include <exception>
+
+void MoistureSensorDFRobot::init()
 {
     if (!gpioInit())
     {
-        return false;
+        throw std::runtime_error("gpio init failed");
     }
 
     if (!adcInit())
     {
-        return false;
+        throw std::runtime_error("adc init failed");
     }
 
     // Calibrate The ADC On Power-Up For Better Accuracy
     if (HAL_ADCEx_Calibration_Start(&m_AdcHandle, ADC_SINGLE_ENDED) != HAL_OK)
     {
-        return false;
+        throw std::runtime_error("adc calibration init failed");
     }
-
-    return true;
 }
 
 const std::optional<uint32_t> MoistureSensorDFRobot::readValue()

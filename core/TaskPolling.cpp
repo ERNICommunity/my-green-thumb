@@ -1,27 +1,28 @@
 #include "TaskPolling.hpp"
 
+#include <exception>
+
 TaskPolling::TaskPolling(uint32_t id, const std::string &name, uint32_t intervall, const taskFunction_t &callbackFunc) :
     m_Id(id),
     m_Name(name),
     m_Interval(intervall),
     m_CallbackFunc(callbackFunc),
     m_IsRunning(false)
-{}
-
-bool TaskPolling::start() 
 {
-    if(m_CallbackFunc != nullptr)
+    if(!m_CallbackFunc)
     {
-        m_IsRunning = true;
+        throw std::invalid_argument("func is empty");
     }
-    
-    return m_IsRunning;
 }
 
-bool TaskPolling::stop() 
+void TaskPolling::start() 
+{
+    m_IsRunning = true;
+}
+
+void TaskPolling::stop() 
 {
     m_IsRunning = false;
-    return true;
 }
 
 void TaskPolling::changeInterval(uint32_t intervall) 
@@ -40,17 +41,16 @@ task_t TaskPolling::getInfo()
     return taskContext;
 }
 
-bool TaskPolling::setTaskFunction(const taskFunction_t &func) 
+void TaskPolling::setTaskFunction(const taskFunction_t &func) 
 {
-    bool retVal = false;
-
     if(func)
     {
         m_CallbackFunc = func;
-        retVal = true;
     }
-
-    return retVal;
+    else
+    {
+        throw std::invalid_argument("func is empty");
+    }
 }
 
 bool TaskPolling::isRunning() 
@@ -60,7 +60,7 @@ bool TaskPolling::isRunning()
 
 void TaskPolling::schedule() 
 {
-    if(m_IsRunning && (m_CallbackFunc != nullptr))
+    if(m_IsRunning)
     {
         m_CallbackFunc();
     }

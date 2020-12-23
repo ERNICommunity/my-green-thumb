@@ -22,10 +22,10 @@ public:
     ITask& operator=(const ITask&) = delete;
 
     // Interface
-    virtual bool start() = 0;
-    virtual bool stop() = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
     virtual void changeInterval(uint32_t interval) = 0;
     virtual task_t getInfo() = 0;
-    virtual bool setTaskFunction(const taskFunction_t &func) = 0;
+    virtual void setTaskFunction(const taskFunction_t &func) = 0;
     virtual bool isRunning() = 0;
 };

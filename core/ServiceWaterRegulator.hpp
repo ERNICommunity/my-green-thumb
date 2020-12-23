@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <cassert>
+#include <exception>
 
 #include "Service.hpp"
 #include "WaterRegulator.hpp"
@@ -12,24 +12,27 @@ private:
     std::shared_ptr<WaterRegulator> m_WaterRegulator;
 
 public:
-    ServiceWaterRegulator(std::shared_ptr<ITask> task,
-                          std::shared_ptr<WaterRegulator> service) : Service(task),
+    ServiceWaterRegulator(std::unique_ptr<ITask> task,
+                          std::shared_ptr<WaterRegulator> service) : Service(std::move(task)),
                                                                      m_WaterRegulator(service)
     {
-        assert(m_WaterRegulator);
+        if(not m_WaterRegulator)
+        {
+            throw std::invalid_argument("service is not set");
+        }
     };
     virtual ~ServiceWaterRegulator() = default;
 
 private:
     // Service Interface
-    bool setup()
+    void setup()
     {
-        return m_WaterRegulator->setup();
+        m_WaterRegulator->setup();
     };
 
-    bool dispose()
+    void dispose()
     {
-        return m_WaterRegulator->dispose();
+        m_WaterRegulator->dispose();
     };
 
     void doWork()

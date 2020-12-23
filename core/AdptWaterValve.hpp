@@ -21,9 +21,9 @@ public:
         m_WaterValve->close();
     };
 
-    const bool init()
+    void init()
     {
-        return m_WaterValve->init();
+        m_WaterValve->init();
     }
 
     void open()

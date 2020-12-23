@@ -12,7 +12,7 @@ public:
     ~MoistureSensorDFRobot() = default;
 
     // Base class methods
-    const bool init();
+    void init();
     const std::optional<uint32_t> readValue();
 
 private:

@@ -12,13 +12,12 @@ private:
 
 public:
     WaterRegulator(std::shared_ptr<IMoistureSensor> moistureSensor,
-                   std::shared_ptr<IValve> waterValve) : m_MoistureSensor(moistureSensor),
-                                                        m_WaterValve(waterValve){};
+                   std::shared_ptr<IValve> waterValve);
     virtual ~WaterRegulator() = default;
     WaterRegulator(const WaterRegulator&) = delete;
     WaterRegulator& operator=(const WaterRegulator&) = delete;
 
-    bool setup();
+    void setup();
     void regulateMoisture();
-    bool dispose();
+    void dispose();
 };

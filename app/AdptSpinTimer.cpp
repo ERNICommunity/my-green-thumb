@@ -1,6 +1,6 @@
 #include "AdptSpinTimer.hpp"
 
-#include <cassert>
+#include <exception>
 
 AdptSpinTimer::AdptSpinTimer(timerInterval_t interval_ms) : m_Interval_ms(interval_ms), m_MyTimerAction(), m_Timer(&m_MyTimerAction, true, interval_ms)
 {
@@ -10,16 +10,14 @@ AdptSpinTimer::AdptSpinTimer(timerInterval_t interval_ms) : m_Interval_ms(interv
     }
 }
 
-bool AdptSpinTimer::start()
+void AdptSpinTimer::start()
 {
     m_Timer.startTimer(m_Interval_ms);
-    return true;
 }
 
-bool AdptSpinTimer::stop()
+void AdptSpinTimer::stop()
 {
     m_Timer.cancelTimer();
-    return true;
 }
 
 bool AdptSpinTimer::isRunning()
@@ -27,18 +25,20 @@ bool AdptSpinTimer::isRunning()
     return m_Timer.isRunning();
 }
 
-bool AdptSpinTimer::setCallbackFunc(const timerCallbackFunc_t &func)
+void AdptSpinTimer::setCallbackFunc(const timerCallbackFunc_t &func)
 {
-    bool retVal = false;
     if (func)
     {
         m_MyTimerAction.setTaskFunction(func);
-        retVal = true;
     }
-    return retVal;
+    else
+    {
+        throw std::invalid_argument("Function is empty");
+    }
+    
 }
 
-bool AdptSpinTimer::setInterval(timerInterval_t interval_ms)
+void AdptSpinTimer::setInterval(const timerInterval_t interval_ms)
 {
     if (m_Interval_ms != interval_ms)
     {
@@ -50,8 +50,6 @@ bool AdptSpinTimer::setInterval(timerInterval_t interval_ms)
             m_Timer.startTimer(m_Interval_ms);
         }
     }
-
-    return true;
 }
 
 timerInterval_t AdptSpinTimer::getInterval() const
@@ -59,21 +57,27 @@ timerInterval_t AdptSpinTimer::getInterval() const
     return m_Interval_ms;
 }
 
-bool MyTimerAction::setTaskFunction(const timerCallbackFunc_t &func)
+void MyTimerAction::setTaskFunction(const timerCallbackFunc_t &func)
 {
-    bool retVal = false;
-
     if (func)
     {
         m_CallbackFunc = func;
-        retVal = true;
     }
-
-    return retVal;
+    else
+    {
+        throw std::invalid_argument("Function is empty");
+    }
+    
 }
 
 void MyTimerAction::timeExpired()
-{
-    assert(m_CallbackFunc);
-    m_CallbackFunc();
+{   
+    if(m_CallbackFunc)
+    {
+        m_CallbackFunc();
+    }
+    else
+    {
+        throw std::logic_error("m_CallbackFunc is not set");
+    }
 }

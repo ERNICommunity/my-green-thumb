@@ -13,10 +13,10 @@ public:
     ITimer(const ITimer&) = delete;
     ITimer& operator=(const ITimer&) = delete;
 
-    virtual bool start() = 0;
-    virtual bool stop() = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
     virtual bool isRunning() = 0;
-    virtual bool setCallbackFunc(const timerCallbackFunc_t &) = 0;
-    virtual bool setInterval(timerInterval_t) = 0;
+    virtual void setCallbackFunc(const timerCallbackFunc_t &) = 0;
+    virtual void setInterval(timerInterval_t) = 0;
     virtual timerInterval_t getInterval() const = 0;
 };
