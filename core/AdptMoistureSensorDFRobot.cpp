@@ -1,21 +1,23 @@
 #include "AdptMoistureSensorDFRobot.hpp"
 
 #include <cstring>
-#include <cassert>
+#include <exception>
 
 float MOISTURE_WATER = 1425;
 float MOISTURE_AIR = 3150;
 float MAX_NORM_VALUE = 1000;
 
-void AdptMoistureSensorDFRobot::setAdaptee(std::shared_ptr<IAdptMoistureSensorDFRobot> adaptee)
+AdptMoistureSensorDFRobot::AdptMoistureSensorDFRobot(std::shared_ptr<IAdptMoistureSensorDFRobot> moistureSensor)
+    : m_MoistureSensor(moistureSensor)
 {
-    assert(m_MoistureSensor);
-    m_MoistureSensor = adaptee;
+    if(!m_MoistureSensor)
+    {
+        throw std::invalid_argument("moistureSensor is not set");
+    }
 }
 
 std::optional<float> AdptMoistureSensorDFRobot::getValue() const
 {
-    assert(m_MoistureSensor);
     auto actualValue = (std::optional<float>)m_MoistureSensor->readValue();
 
     if (actualValue.has_value())
@@ -44,7 +46,7 @@ const sensor_t AdptMoistureSensorDFRobot::getInfo() const
     return sensor_info;
 }
 
-void AdptMoistureSensorDFRobot::init() 
+void AdptMoistureSensorDFRobot::init()
 {
     m_MoistureSensor->init();
 }

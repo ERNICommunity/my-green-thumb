@@ -16,7 +16,7 @@
 #include "WaterRegulator.hpp"
 #include "ServiceWaterRegulator.hpp"
 #include "ServiceStatus.hpp"
-#include "AdptWaterValve.hpp"
+#include "AdptWaterValveBistable.hpp"
 #include "WaterValveBistable.hpp"
 
 #include "AdptSpinTimer.hpp"
@@ -36,7 +36,6 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void Error_Handler(void);
-void DummyCallBack(void);
 
 /**
   * @brief  The application entry point.
@@ -66,8 +65,8 @@ int main(void)
   std::shared_ptr<AdptMoistureSensorDFRobot> moistureSensor = std::make_shared<AdptMoistureSensorDFRobot>(
     std::make_shared<MoistureSensorDFRobot>()
   );
-  std::shared_ptr<AdptWaterValve> waterValve = std::make_shared<AdptWaterValve>(
-      std::make_shared<WaterValveBistable>(std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer())));
+  std::shared_ptr<AdptWaterValveBistable> waterValve = std::make_shared<AdptWaterValveBistable>(
+      std::make_shared<WaterValveBistable>(), std::unique_ptr<AdptSpinTimer>(new AdptSpinTimer()));
   std::shared_ptr<WaterRegulator> waterRegulator = std::make_shared<WaterRegulator>(
       std::dynamic_pointer_cast<IMoistureSensor>(moistureSensor),
       std::dynamic_pointer_cast<IValve>(waterValve));

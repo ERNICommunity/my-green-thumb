@@ -32,31 +32,29 @@ void WaterValveBistable::init()
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-    // Configure Timer
-    m_Timer->setInterval(1000);
 }
 
 void WaterValveBistable::open()
 {
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
-
-    m_Timer->start();
 }
 
 void WaterValveBistable::close()
 {
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
-
-    m_Timer->start();   
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);  
 }
 
-void WaterValveBistable::resetOutputs() 
+void WaterValveBistable::reset() 
 {
-    m_Timer->stop();
-
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
 }
+
+uint32_t WaterValveBistable::getImpulseDuration() const
+{
+    return 1000; // 1s
+}
+
+

@@ -1,28 +1,18 @@
 #pragma once
 
-#include <memory>
-
-#include "IAdptWaterValve.hpp"
+#include "IAdptWaterValveBistable.hpp"
 #include "ITimer.hpp"
 
-class WaterValveBistable : public IAdptWaterValve
+class WaterValveBistable : public IAdptWaterValveBistable
 {
-private:
-    std::unique_ptr<ITimer> m_Timer;
-
 public:
-    WaterValveBistable(std::unique_ptr<ITimer> timer) : m_Timer(std::move(timer))
-    {
-        // Configure Timer
-        m_Timer->setCallbackFunc(std::bind(&WaterValveBistable::resetOutputs, this));
-    };
-    ~WaterValveBistable() = default;
+    WaterValveBistable() = default;
+    virtual ~WaterValveBistable() = default;
 
     // Interface implementation
     void init();
     void open();
     void close();
-
-private:
-    void resetOutputs();
+    void reset();
+    uint32_t getImpulseDuration() const;
 };

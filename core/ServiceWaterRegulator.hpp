@@ -16,7 +16,7 @@ public:
                           std::shared_ptr<WaterRegulator> service) : Service(std::move(task)),
                                                                      m_WaterRegulator(service)
     {
-        if(not m_WaterRegulator)
+        if(!m_WaterRegulator)
         {
             throw std::invalid_argument("service is not set");
         }

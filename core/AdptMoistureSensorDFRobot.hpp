@@ -9,12 +9,8 @@ class AdptMoistureSensorDFRobot : public IMoistureSensor
 {
 public:
   // Constructor
-  AdptMoistureSensorDFRobot(std::shared_ptr<IAdptMoistureSensorDFRobot> moistureSensor = {})
-      : m_MoistureSensor(moistureSensor){};
+  AdptMoistureSensorDFRobot(std::shared_ptr<IAdptMoistureSensorDFRobot> moistureSensor);
   virtual ~AdptMoistureSensorDFRobot() = default;
-
-  // Methods
-  void setAdaptee(std::shared_ptr<IAdptMoistureSensorDFRobot> adaptee);
 
   // Base class methods
   /*! @brief Get the latest sensor event
