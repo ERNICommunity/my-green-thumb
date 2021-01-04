@@ -8,6 +8,7 @@ set(SOURCES
 	"TaskPolling.cpp"
     "WaterRegulator.cpp"
     "AdptWaterValveBistable.cpp"
+    "Service.cpp"
 )
 
 add_library(${TARGET} OBJECT ${SOURCES})

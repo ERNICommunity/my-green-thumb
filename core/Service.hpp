@@ -1,47 +1,22 @@
 #pragma once
 
+#include <atomic>
 #include <memory>
-#include <exception>
-
 #include "ITask.hpp"
 
 class Service
 {
 public:
     // Constructor
-    Service(std::unique_ptr<ITask> task) : m_Task(std::move(task))
-    {
-        if(m_Task)
-        {
-            m_Task->setTaskFunction(std::bind(&Service::doWork, this));
-        }
-        else
-        {
-            throw std::invalid_argument("Task pointer is NULL");         
-        }
-    };
-    virtual ~Service(){};
+    Service(std::unique_ptr<ITask> task);
+    virtual ~Service() = default;
 
 public:
-    void start()
-    {
-        setup();
-        m_Task->start();
-    };
-    void stop()
-    {
-        m_Task->stop();
-        dispose();
-    };
-    bool isRunning()
-    {
-        return m_Task->isRunning();
-    };
-
-    void setInterval(uint32_t interval_ms)
-    {
-        m_Task->changeInterval(interval_ms);
-    };
+    void start();
+    void stop();
+    bool isRunning() const;
+    void setInterval(uint32_t interval_ms);
+    uint32_t getId() const;
 
 protected:
     // Interface methods
@@ -50,5 +25,7 @@ protected:
     virtual void doWork() = 0;
 
 private:
+    static std::atomic<uint32_t> idCount;
+    uint32_t m_Id;
     std::unique_ptr<ITask> m_Task;
 };
